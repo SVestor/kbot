@@ -4,7 +4,8 @@ VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HE
 OS=linux  
 OS1=windows
 OS2=darwin #MacOS
-OS3=android 
+OS3=android
+AMDARCH=amd64
 
 format:
 	@gofmt -s -w ./
@@ -89,8 +90,8 @@ android: format goget
             ;; \
         esac
 
-image:
-	docker build . -t ${REGYSTRY}/${APP}:${VERSION}-${TARGETARCH}
+image: linux
+	docker build . -t ${REGYSTRY}/${APP}:${VERSION}-${AMDARCH}
 
 push:
 	docker push ${REGYSTRY}/${APP}:${VERSION}-${TARGETARCH} 	
