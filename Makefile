@@ -1,3 +1,5 @@
+.EXPORT_ALL_VARIABLES:
+
 APP=$(shell basename $(shell git remote get-url origin))
 REGYSTRY=svestor
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
@@ -5,7 +7,6 @@ OS=linux
 OS1=windows
 OS2=darwin #MacOS
 OS3=android
-AMDARCH=amd64
 
 format:
 	@gofmt -s -w ./
@@ -20,89 +21,92 @@ goget:
 	@go get
 
 linux: format goget
-	@case "$(shell read -p "Enter the desired architecture to make it for Linux: |amd64|386|arm64|arm| : " ARCH && echo $$ARCH )" in \
+	@read -p "Enter the desired architecture to make a binary for Linux: |amd64|386|arm64|arm| : " ARCH && \
+		export ARCH=$$ARCH && \
+	case $$ARCH in \
         (amd64) \
-             CGO_ENABLED=0 GOOS=${OS} GOARCH=amd64 go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
-			echo " !!! Your Linux package for amd64 was built and is ready to use !!!"; \
-			;; \
+             CGO_ENABLED=0 GOOS=${OS} GOARCH=$$ARCH go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
+			echo " !!! Your Linux binary for $$ARCH was built and is ready to use !!!"; \
+                       	;; \
         (arm64) \
-            CGO_ENABLED=0 GOOS=${OS} GOARCH=arm64 go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
-			echo " !!! Your Linux package for arm64 was built and is ready to use !!!"; \
+            CGO_ENABLED=0 GOOS=${OS} GOARCH=$$ARCH go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
+			echo " !!! Your Linux binary for $$ARCH was built and is ready to use !!!"; \
 			;; \
 	(arm) \
-            CGO_ENABLED=0 GOOS=${OS} GOARCH=arm go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
-	    		echo " !!! Your Linux package for arm was built and is ready to use !!!"; \
+            CGO_ENABLED=0 GOOS=${OS} GOARCH=$$ARCH go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
+	    		echo " !!! Your Linux binary for $$ARCH was built and is ready to use !!!"; \
             ;; \
 	(386) \
-            CGO_ENABLED=0 GOOS=${OS} GOARCH=386 go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
-	    		echo " !!! Your Linux package for 386 was built and is ready to use !!!"; \
+            CGO_ENABLED=0 GOOS=${OS} GOARCH=$$ARCH go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
+	    		echo " !!! Your Linux binary for 386 was built and is ready to use !!!"; \
             ;; \
-        esac
+        esac ; \
+	if [ "$(shell read -p "Wish to make an image with a binary type |y| , if need binary only type |n| ? : " YESS && echo $$YESS)" = "y" ]; then \
+	$(call build_image, $(ARCH)); \
+        fi 	
+	
 windows: format goget
-	@case "$(shell read -p "Enter the desired architecture to make it for Windows: |amd64|386|arm64|arm| : " ARCH && echo $$ARCH )" in \
+	 @read -p "Enter the desired architecture to make a binary for Windows: |amd64|386|arm64|arm| : " ARCH && \
+                export ARCH=$$ARCH && \
+        case $$ARCH in \
         (amd64) \
-             CGO_ENABLED=0 GOOS=${OS1} GOARCH=amd64 go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
-                        echo " !!! Your Windows package for amd64 was built and is ready to use !!!"; \
+             CGO_ENABLED=0 GOOS=${OS1} GOARCH=$$ARCH go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
+                        echo " !!! Your Windows binary for $$ARCH was built and is ready to use !!!"; \
                         ;; \
         (arm64) \
-            CGO_ENABLED=0 GOOS=${OS1} GOARCH=arm64 go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
-                        echo " !!! Your Windows package for arm64 was built and is ready to use !!!"; \
+            CGO_ENABLED=0 GOOS=${OS1} GOARCH=$$ARCH go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
+                        echo " !!! Your Windows binary for $$ARCH was built and is ready to use !!!"; \
                         ;; \
         (arm) \
-            CGO_ENABLED=0 GOOS=${OS1} GOARCH=arm go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
-                        echo " !!! Your Windows package for arm was built and is ready to use !!!"; \
+            CGO_ENABLED=0 GOOS=${OS1} GOARCH=$$ARCH go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
+                        echo " !!! Your Windows binary for $$ARCH was built and is ready to use !!!"; \
             ;; \
         (386) \
-            CGO_ENABLED=0 GOOS=${OS1} GOARCH=386 go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
-                        echo " !!! Your Windows package for 386 was built and is ready to use !!!"; \
+            CGO_ENABLED=0 GOOS=${OS1} GOARCH=$$ARCH go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
+                        echo " !!! Your Windows binary for 386 was built and is ready to use !!!"; \
             ;; \
-        esac
+        esac ; \
+        if [ "$(shell read -p "Wish to make an image with a binary type |y| , if need binary only type |n| ? : " YESS && echo $$YESS)" = "y" ]; then \
+        $(call build_image, $(ARCH)); \
+        fi
 
 macos: format goget
-	@case "$(shell read -p "Enter the desired architecture to make it for MacOS: |amd64|arm64| : " ARCH && echo $$ARCH )" in \
+	 @read -p "Enter the desired architecture to make a binary for MacOS: |amd64|arm64| : " ARCH && \
+                export ARCH=$$ARCH && \
+        case $$ARCH in \
         (amd64) \
-             CGO_ENABLED=0 GOOS=${OS2} GOARCH=amd64 go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
-                        echo " !!! Your MacOS package for amd64 was built and is ready to use !!!"; \
+             CGO_ENABLED=0 GOOS=${OS2} GOARCH=$$ARCH go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
+                        echo " !!! Your MacOs binary for $$ARCH was built and is ready to use !!!"; \
                         ;; \
         (arm64) \
-            CGO_ENABLED=0 GOOS=${OS2} GOARCH=arm64 go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
-                        echo " !!! Your MacOS package for arm64 was built and is ready to use !!!"; \
-                        ;; \
-        esac
+            CGO_ENABLED=0 GOOS=${OS2} GOARCH=$$ARCH go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
+                        echo " !!! Your MacOs binary for $$ARCH was built and is ready to use !!!"; \
+            ;; \
+        esac ; \
+        if [ "$(shell read -p "Wish to make an image with a binary type |y| , if need binary only type |n| ? : " YESS && echo $$YESS)" = "y" ]; then \
+        $(call build_image, $(ARCH)); \
+        fi
 
 android: format goget
-	@case "$(shell read -p "Enter the desired architecture to make it for Android: |amd64|386|arm64|arm| : " ARCH && echo $$ARCH )" in \
+	 @read -p "Enter the desired architecture to make a binary for Android: |amd64|arm64| : " ARCH && \
+                export ARCH=$$ARCH && \
+        case $$ARCH in \
         (amd64) \
-             CGO_ENABLED=0 GOOS=${OS3} GOARCH=amd64 go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
-                        echo " !!! Your Android package for amd64 was built and is ready to use !!!"; \
+             CGO_ENABLED=0 GOOS=${OS3} GOARCH=$$ARCH go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
+                        echo " !!! Your Android binary for $$ARCH was built and is ready to use !!!"; \
                         ;; \
         (arm64) \
-            CGO_ENABLED=0 GOOS=${OS3} GOARCH=arm64 go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
-                        echo " !!! Your Android package for arm64 was built and is ready to use !!!"; \
-                        ;; \
-        (arm) \
-            CGO_ENABLED=0 GOOS=${OS3} GOARCH=arm go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
-                        echo " !!! Your Android package for arm was built and is ready to use !!!"; \
+            CGO_ENABLED=0 GOOS=${OS3} GOARCH=$$ARCH go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
+                        echo " !!! Your Android binary for $$ARCH was built and is ready to use !!!"; \
             ;; \
-        (386) \
-            CGO_ENABLED=0 GOOS=${OS3} GOARCH=386 go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}; \
-                        echo " !!! Your Android package for 386 was built and is ready to use !!!"; \
-            ;; \
-        esac
-
-image: linux
-	docker build . -t ${REGYSTRY}/${APP}:${VERSION}-${AMDARCH}
+        esac ; \
+        if [ "$(shell read -p "Wish to make an image with a binary type |y| , if need binary only type |n| ? : " YESS && echo $$YESS)" = "y" ]; then \
+        $(call build_image, $(ARCH)); \
+        fi
+build_image = docker build --build-arg ARCH="$(1)" -t ${REGYSTRY}/${APP}:${VERSION}-$$ARCH .
 
 push:
 	docker push ${REGYSTRY}/${APP}:${VERSION}-${TARGETARCH} 	
 
 clean:
 	rm -rf kbot
-
-
-
-
-    
-
-
-
