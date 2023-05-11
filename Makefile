@@ -2,11 +2,13 @@
 
 APP=$(shell basename $(shell git remote get-url origin))
 REGYSTRY=svestor
+CREG=quay.io
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 OS=linux  
 OS1=windows
 OS2=darwin #MacOS
 OS3=android
+TAG=$(shell docker images --format "{{.Repository}}:{{.Tag}}")
 
 format:
 	@gofmt -s -w ./
@@ -103,12 +105,18 @@ android: format goget
         if [ "$(shell read -p "Wish to make an image with a binary type |y| , if need binary only type |n| ? : " YESS && echo $$YESS)" = "y" ]; then \
         $(call build_image, $(ARCH)); \
         fi
-build_image = docker build --build-arg ARCH="$(1)" -t ${REGYSTRY}/${APP}:${VERSION}-$$ARCH .
+build_image = docker build --build-arg ARCH="$(1)" -t ${CREG}/${REGYSTRY}/${APP}:${VERSION}-$$ARCH .
 
 push:
-	docker push ${REGYSTRY}/${APP}:${VERSION}-${TARGETARCH} 	
+	docker push ${TAG}	
 
-clean:
+cleanall:
 	rm -rf kbot 
 	docker rmi -f ${shell docker images -q}
 
+clean:
+	docker rmi -f ${TAG}
+
+cleankb:
+	rm -rf kbot
+	 
