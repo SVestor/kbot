@@ -109,4 +109,6 @@ push:
 	docker push ${REGYSTRY}/${APP}:${VERSION}-${TARGETARCH} 	
 
 clean:
-	rm -rf kbot
+	rm -rf kbot 
+	docker rmi -f ${shell docker images -q}
+
