@@ -1,0 +1,23 @@
+# Default values for helm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  cregistry: "quay.io"
+  repository: "svestor"
+  app: "kbot"
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "v1.0.5-73fd3ab"
+  arch: "amd64"
+
+secret:
+  tockenName: "TELE_TOKEN"
+  tockenKey: "token"
+  name: "kbot"
+securityContext:
+  privileged: true  
+
+
+
