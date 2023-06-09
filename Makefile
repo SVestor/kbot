@@ -4,7 +4,8 @@ APP=$(shell basename $(shell git remote get-url origin))
 REGYSTRY=svestor
 CREG=quay.io
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
-OS=linux  
+OS=linux
+ARCH=amd64
 OS1=windows
 OS2=darwin #MacOS
 OS3=android
@@ -107,11 +108,12 @@ android:
         ${MAKE} image OS=${OS3} CGO_ENABLED=${CGO_ENABLED} ARCH=$$ARCH; \
         fi
 
-image: cleankb
-	docker build --build-arg ARCH=${ARCH} --build-arg OS=${OS} --build-arg CGO_ENABLED=${CGO_ENABLED} -t ${CREG}/${REGYSTRY}/${APP}:${VERSION}-${OS}-${ARCH} .
-
 build: format goget
 	CGO_ENABLED=${CGO_ENABLED} GOOS=${OS} GOARCH=${ARCH} go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}
+
+image: cleankb
+	docker build . -t ${CREG}/${REGYSTRY}/${APP}:${VERSION}-${OS}-${ARCH} \
+	--build-arg ARCH=${ARCH} --build-arg OS=${OS} --build-arg CGO_ENABLED=${CGO_ENABLED}
 
 push:
 	docker push ${TAG}	
@@ -119,6 +121,7 @@ push:
 cleanall:
 	rm -rf kbot 
 	docker rmi -f ${shell docker images -q}
+	docker rm -f $(shell docker ps -a -q)
 
 clean:
 	docker rmi -f ${TAG}
