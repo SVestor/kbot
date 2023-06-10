@@ -26,7 +26,7 @@ jobs:
         env:
           APP: "kbot"
           REGISTRY: ${{ secrets.DOCKERHUB_USERNAME }}
-          OS: "libux"
+          OS: "linux"
           ARCH: "arm64"
           CGO_ENABLED: "0"          
         run: make image push      
