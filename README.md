@@ -1,2 +1,2 @@
 # kbot
-dev apps from scratch
+develop branch for kbot
