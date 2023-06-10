@@ -116,7 +116,7 @@ image: cleankb
 	--build-arg ARCH=${ARCH} --build-arg OS=${OS} --build-arg CGO_ENABLED=${CGO_ENABLED}
 
 push:
-	docker push ${TAG}	
+	docker push ${CREG}/${REGYSTRY}/${APP}:${VERSION}-${OS}-${ARCH}	
 
 cleanall:
 	rm -rf kbot 
