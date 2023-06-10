@@ -3,22 +3,17 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-
 image:
   cregistry: "docker.io"
   repository: "svestor"
   app: "kbot"
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.0.7-cf6be0f"
+  tag: "v1.0.7-920dcae"
   os: "linux"
   arch: "amd64"
-
 secret:
   tockenName: "TELE_TOKEN"
   tockenKey: "token"
   name: "kbot"
 securityContext:
-  privileged: true  
-
-
-
+  privileged: true
