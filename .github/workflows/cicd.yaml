@@ -27,6 +27,7 @@ jobs:
       - name: Build&Push
         env:
           APP: "kbot"
+          CREG: "docker.io"
           REGISTRY: ${{ secrets.DOCKERHUB_USERNAME }}
           OS: "linux"
           ARCH: "arm64"
