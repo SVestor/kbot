@@ -4,12 +4,12 @@ APP=$(shell basename $(shell git remote get-url origin))
 REGISTRY=svestor
 CREG=docker.io
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
-#OS=linux
-#ARCH=amd64
+OS=linux
+ARCH=amd64
 OS1=windows
 OS2=darwin #MacOS
 OS3=android
-#CGO_ENABLED=0
+CGO_ENABLED=0
 TAG=$(shell docker images --format "{{.Repository}}:{{.Tag}}")
 
 format:
