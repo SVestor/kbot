@@ -1,2 +1,2 @@
 # kbot
-develop branch for kbot
+develop branch for the app 
