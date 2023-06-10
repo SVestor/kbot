@@ -1,0 +1,36 @@
+name: KBOT-CICD-DEV
+
+on: 
+  push:
+    branches: [ "develop" ]
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Run test
+        run: make test
+      
+      - name: GHCR login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build&Push
+        env:
+          APP: "kbot"
+          REGISTRY: ${{ secrets.DOCKERHUB_USERNAME }}
+          OS: "linux"
+          ARCH: "arm64"
+          CGO_ENABLED: "0"          
+        run: make image push 
+
+    
