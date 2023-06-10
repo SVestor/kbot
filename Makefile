@@ -1,7 +1,7 @@
 .EXPORT_ALL_VARIABLES:
 
 APP=$(shell basename $(shell git remote get-url origin))
-REGYSTRY=svestor
+REGISTRY=svestor
 CREG=docker.io
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 OS=linux
@@ -112,11 +112,11 @@ build: format goget
 	CGO_ENABLED=${CGO_ENABLED} GOOS=${OS} GOARCH=${ARCH} go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}
 
 image: cleankb
-	docker build . -t ${CREG}/${REGYSTRY}/${APP}:${VERSION}-${OS}-${ARCH} \
+	docker build . -t ${CREG}/${REGISTRY}/${APP}:${VERSION}-${OS}-${ARCH} \
 	--build-arg ARCH=${ARCH} --build-arg OS=${OS} --build-arg CGO_ENABLED=${CGO_ENABLED}
 
 push:
-	docker push ${CREG}/${REGYSTRY}/${APP}:${VERSION}-${OS}-${ARCH}	
+	docker push ${CREG}/${REGISTRY}/${APP}:${VERSION}-${OS}-${ARCH}	
 
 cleanall:
 	rm -rf kbot 
