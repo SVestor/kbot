@@ -25,5 +25,8 @@ jobs:
       - name: Build&Push
         env:
           APP: "kbot"
-          REGISTRY: ${{ secrets.DOCKERHUB_USERNAME }}          
+          REGISTRY: ${{ secrets.DOCKERHUB_USERNAME }}
+          OS: "windows"
+          ARCH: "386"
+          CGO_ENABLED: "1"          
         run: make image push      
