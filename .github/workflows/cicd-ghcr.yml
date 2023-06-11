@@ -27,6 +27,13 @@ jobs:
           registry: ${{ env.CHREG }}
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOCKEN }}
+      
+      - name: Extract metadata for Docker
+        id: meta 
+        uses: docker/metadata-action@v4
+        with:
+          tags: |
+            type=ref, event=branch
 
       - name: Build&Push
         env:
