@@ -121,6 +121,9 @@ push:
 		docker push ${CREG}/${REGISTRY}/${APP}:$$tag ; \
 	done
 
+mpush:
+	docker image push --all-tags ${CREG}/${REGISTRY}/${APP}
+
 cleanall:
 	rm -rf kbot 
 	docker rmi -f ${shell docker images -q}
