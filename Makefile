@@ -117,7 +117,7 @@ image: cleankb
 	--build-arg ARCH=${ARCH} --build-arg OS=${OS} --build-arg CGO_ENABLED=${CGO_ENABLED}
 
 push:
-	for tag in ${VERSION}-${OS}-${ARCH} ${BRANCH_NAME}; do \
+	for tag in ${BRANCH_NAME} ${VERSION}-${OS}-${ARCH} ; do \
 		docker push ${CREG}/${REGISTRY}/${APP}:$$tag ; \
 	done
 
