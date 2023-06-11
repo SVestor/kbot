@@ -1,2 +1,2 @@
 # kbot
-dev apps from scratch
+dev apps from scratch main branch
