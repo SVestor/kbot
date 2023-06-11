@@ -32,6 +32,7 @@ jobs:
         id: meta 
         uses: docker/metadata-action@v4
         with:
+          images: ${{ env.CHREG }}/${{ secrets.DOCKERHUB_USERNAME }}
           tags: |
             type=ref, event=branch
 
