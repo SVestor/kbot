@@ -6,14 +6,16 @@ replicaCount: 1
 image:
   cregistry: "ghcr.io"
   repository: "svestor"
-  app: "kbot"
+  app:
+    name: "kbot" 
+    version: "v1"
   # Overrides the image tag whose default is the chart appVersion.
   tag: "v1.0.7-17a2426"
   os: "linux"
   arch: "amd64"
 secret:
-  tockenName: "TELE_TOKEN"
-  tockenKey: "token"
-  name: "kbot"
+  tokenName: "TELE_TOKEN"
+  name: "kbot-secret"
+  tokenKey: "inject_your_key"
 securityContext:
   privileged: true
