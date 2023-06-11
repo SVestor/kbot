@@ -26,15 +26,7 @@ jobs:
         with:
           registry: ${{ env.CHREG }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_TOCKEN }}
-      
-      - name: Extract metadata for Docker
-        id: meta 
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.CHREG }}/${{ secrets.DOCKERHUB_USERNAME }}
-          tags: |
-            type=ref, event=branch
+          password: ${{ secrets.GHCR_TOCKEN } 
 
       - name: Build&Push
         env:
@@ -43,7 +35,7 @@ jobs:
           REGISTRY: ${{ secrets.DOCKERHUB_USERNAME }}
           OS: "linux"
           ARCH: "arm64"
-          CGO_ENABLED: "0"          
+          CGO_ENABLED: "0" 
         run: make image push
   cd:
     name: CD
