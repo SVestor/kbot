@@ -2,7 +2,7 @@
 
 APP=$(shell basename $(shell git remote get-url origin))
 REGISTRY=svestor
-#CREG=docker.io
+CREG=ghcr.io
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 OS=linux
 ARCH=amd64
@@ -10,6 +10,7 @@ OS1=windows
 OS2=darwin #MacOS
 OS3=android
 CGO_ENABLED=0
+BRANCH_NAME=$(shell git rev-parse --abbrev-ref HEAD)
 TAG=$(shell docker images --format "{{.Repository}}:{{.Tag}}")
 
 format:
@@ -112,11 +113,13 @@ build: format goget
 	CGO_ENABLED=${CGO_ENABLED} GOOS=${OS} GOARCH=${ARCH} go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}
 
 image: cleankb
-	docker build . -t ${CREG}/${REGISTRY}/${APP}:${VERSION}-${OS}-${ARCH} \
+	docker build . -t ${CREG}/${REGISTRY}/${APP}:${VERSION}-${OS}-${ARCH} -t ${CREG}/${REGISTRY}/${APP}:${BRANCH_NAME} \
 	--build-arg ARCH=${ARCH} --build-arg OS=${OS} --build-arg CGO_ENABLED=${CGO_ENABLED}
 
 push:
-	docker push ${CREG}/${REGISTRY}/${APP}:${VERSION}-${OS}-${ARCH}	
+	for tag in ${VERSION}-${OS}-${ARCH} ${BRANCH_NAME}; do \
+		docker push ${CREG}/${REGISTRY}/${APP}:$$tag ; \
+	done
 
 cleanall:
 	rm -rf kbot 
