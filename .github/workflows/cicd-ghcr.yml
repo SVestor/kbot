@@ -26,7 +26,7 @@ jobs:
         with:
           registry: ${{ env.CHREG }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_TOCKEN } 
+          password: ${{ secrets.GHCR_TOCKEN }} 
 
       - name: Build&Push
         env:
