@@ -4,7 +4,7 @@
 
 replicaCount: 1
 image:
-  cregistry: "docker.io"
+  cregistry: "ghcr.io"
   repository: "svestor"
   app: "kbot"
   # Overrides the image tag whose default is the chart appVersion.
