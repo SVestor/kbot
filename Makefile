@@ -10,6 +10,7 @@ OS1=windows
 OS2=darwin #MacOS
 OS3=android
 CGO_ENABLED=0
+BRANCH_NAME=$(shell git rev-parse --abbrev-ref HEAD)
 TAG=$(shell docker images --format "{{.Repository}}:{{.Tag}}")
 
 format:
@@ -112,11 +113,11 @@ build: format goget
 	CGO_ENABLED=${CGO_ENABLED} GOOS=${OS} GOARCH=${ARCH} go build -v -o kbot -ldflags "-X="github.com/SVestor/kbot/cmd.appVersion=${VERSION}
 
 image: cleankb
-	docker build . -t ${CREG}/${REGISTRY}/${APP}:${VERSION}-${OS}-${ARCH} \
+	docker build . -t ${CREG}/${REGISTRY}/${APP}:${VERSION}-${OS}-${ARCH} -t ${CREG}/${REGISTRY}/${APP}:${BRANCH_NAME} \
 	--build-arg ARCH=${ARCH} --build-arg OS=${OS} --build-arg CGO_ENABLED=${CGO_ENABLED}
 
 push:
-	docker push ${CREG}/${REGISTRY}/${APP}:${VERSION}-${OS}-${ARCH}	
+	docker image push --all-tags ${CREG}/${REGISTRY}/${APP}	
 
 cleanall:
 	rm -rf kbot 
