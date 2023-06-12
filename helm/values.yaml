@@ -1,6 +1,6 @@
-# Default values for helm.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+# Default values for helm
+# This is a YAML-formatted file
+# Declare variables to be passed into your templates
 
 replicaCount: 1
 image:
@@ -9,7 +9,7 @@ image:
   app:
     name: "kbot"
     version: "v1"
-  # Overrides the image tag whose default is the chart appVersion.
+  # Overrides the image tag whose default is the chart appVersion
   tag: "v1.0.7-77d6097"
   os: "linux"
   arch: "amd64"
