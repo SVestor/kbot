@@ -10,7 +10,7 @@ image:
     name: "kbot"
     version: "v1"
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.0.7-f7f3a4e"
+  tag: "v1.0.7-4f271a9"
   os: "linux"
   arch: "amd64"
 secret:
