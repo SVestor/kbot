@@ -8,14 +8,17 @@ image:
   repository: "svestor"
   app:
     name: "kbot"
-    version: "v1"
   # Overrides the image tag whose default is the chart appVersion
   tag: "v1.0.7-9db5f6c"
   os: "linux"
   arch: "amd64"
+app:
+  name: "kbot-app"
+  version: "v1"
 secret:
   tokenName: "TELE_TOKEN"
   name: "kbot-secret"
   tokenKey: "NTk1MjgxMjE3NjpBQUdfQ3B3SDFiQ2VWcUN6SHdYTjlTUG9Qb2JTdXJrOHNyWQ=="
 securityContext:
   privileged: true
+
