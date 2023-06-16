@@ -8,7 +8,7 @@ image:
   repository: "svestor"
   app: "kbot"
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.0.7-2c0805f"
+  tag: "v1.0.7-21c8850"
   os: "linux"
   arch: "amd64"
 secret:
