@@ -44,7 +44,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('', 'dockerhub')  {
-                    sh "make image OS=${params.OS} ARCH=${params.ARCH}"
+                    sh "make push OS=${params.OS} ARCH=${params.ARCH}"
                     }
                 }
             }
