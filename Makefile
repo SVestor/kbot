@@ -130,8 +130,9 @@ cleanall:
 	docker rm -f $(shell docker ps -a -q)
 
 clean:
-	docker rmi -f ${TAG}
-
+	for tag in ${BRANCH_NAME} ${VERSION}-${OS}-${ARCH} ; do \
+		docker rmi -f ${CREG}/${REGISTRY}/${APP}:$$tag ; \
+		done
 cleankb:
 	rm -rf kbot
 
