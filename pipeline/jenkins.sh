@@ -2,7 +2,7 @@ pipeline {
 agent any
     environment {
         REPO = 'https://github.com/SVestor/kbot'
-        BRANCH = 'develop'
+        BRANCH = 'main'
     }
     stages {
         
@@ -32,6 +32,7 @@ agent any
                 script {
                     echo 'BUILD EXECUTION STARTED'
                     sh 'make image'
+                    echo "... image is ready for pushing ..."
                 }
             }
         }
@@ -39,7 +40,7 @@ agent any
         stage("push") {
             steps {
                 script {
-                    docker.withRegistry('', 'dockerhub') {
+                    docker.withRegistry('', 'dockerhub')  {
                     sh 'make push'
                     }
                 }
@@ -47,4 +48,3 @@ agent any
         }
     }
 }
-

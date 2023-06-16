@@ -14,5 +14,19 @@ pipeline {
 
             }
         }
+
+        stage("test") {
+            steps {
+                echo 'BUILD EXECUTION STARTED'
+                sh 'make test'
+            }
+        }
+
+        stage("build") {
+            steps {
+                echo 'BUILD EXECUTION STARTED'
+                sh 'make build OS=${params.OS} ARCH=${params.ARCH}'
+            }
+        }
     }
 }
