@@ -6,8 +6,23 @@ pipeline {
         choice(name: 'ARCH', choices: ['amd64', 'arm64', '368', 'arm'], description: 'Pick OS')
 
     }
+
+    environment {
+        REPO = 'https://github.com/SVestor/kbot'
+        BRANCH = 'main'
+        CREG = "docker.io"
+    }
+    
     stages {
-        stage('Example') {
+
+        stage("clone") {
+            steps {
+                echo "... CLONNING REPOSITORY ..."
+                  git branch: "$BRANCH" , url: "$REPO"
+            }
+        }
+
+        stage("param") {
             steps {
                 echo "Build for platform ${params.OS}"
 
@@ -18,14 +33,14 @@ pipeline {
 
         stage("test") {
             steps {
-                echo 'BUILD EXECUTION STARTED'
+                echo "... TEST EXECUTION STARTED ... "
                 sh 'make test'
             }
         }
 
         stage("build") {
             steps {
-                echo 'BUILD EXECUTION STARTED'
+                echo "... BUILD EXECUTION STARTED ..."
                 sh "make build OS=${params.OS} ARCH=${params.ARCH}"
             }
         }
@@ -33,7 +48,7 @@ pipeline {
         stage("image") {
             steps {
                 script {
-                    echo 'BUILD EXECUTION STARTED'
+                    echo "... BUILD IMAGE EXECUTION STARTED ..."
                     sh "make image OS=${params.OS} ARCH=${params.ARCH}"
                     echo "... image is ready for pushing ..."
                 }
@@ -46,6 +61,8 @@ pipeline {
                     docker.withRegistry('', 'dockerhub')  {
                     sh "make push OS=${params.OS} ARCH=${params.ARCH}"
                     }
+
+                    echo "... IMAGE was successfully pushed to ${CREG} ..."
                 }
             }
         }
