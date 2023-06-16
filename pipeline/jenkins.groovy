@@ -25,7 +25,7 @@ pipeline {
         stage("build") {
             steps {
                 echo 'BUILD EXECUTION STARTED'
-                sh 'make build OS=${params.OS} ARCH=${params.ARCH}'
+                sh "make build OS=${params.OS} ARCH=${params.ARCH}"
             }
         }
     }
