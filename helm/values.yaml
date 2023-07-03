@@ -9,7 +9,7 @@ image:
   app:
     name: "kbot"
   # Overrides the image tag whose default is the chart appVersion
-  tag: "v1.0.7-bc74985"
+  tag: "v1.0.7-5b3cf6e"
   os: "linux"
   arch: "amd64"
 app:
