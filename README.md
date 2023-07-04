@@ -12,7 +12,7 @@ $ git@github.com:SVestor/kbot.git
 $ cd kbot
 
 $ read -s TELE_TOKEN
-# type telegram API token here
+# type a telegram API token here
 
 $ export TELE_TOKEN
 $ gofmt -s -w ./
