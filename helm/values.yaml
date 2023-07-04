@@ -18,6 +18,6 @@ app:
 secret:
   tokenName: "TELE_TOKEN"
   name: "kbot-secret"
-  tokenKey: "NTk1MjgxMjE3NjpBQUdfQ3B3SDFiQ2VWcUN6SHdYTjlTUG9Qb2JTdXJrOHNyWQ=="
+  tokenKey: "token"
 securityContext:
   privileged: true
