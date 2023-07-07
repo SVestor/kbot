@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# pre-commit gitleaks hook
+# checking if gitleaks is installed
+
+gitleaks_version="$(gitleaks version 2>/dev/null)"
+
+if [[ -n "$gitleaks_version" ]]; then
+    echo "gitleaks version: ${gitleaks_version}"
+    python hook/gitleaks/gl.py
+else
+    echo "....gitleaks is not installed... installing..."
+    chmod +x hook/gitleaks/gl.sh
+    bash -c hook/gitleaks/gl.sh
+    python hook/gitleaks/gl.py
+fi
+
