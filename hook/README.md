@@ -45,8 +45,9 @@ repos:
         stages: [pre-commit]
 ```
 ```bash
-# From the root of your repo go to the ./hook/pre-web-hooks folder and run the python script:
+# From the root of your repo go to the ./hook/pre-web-hooks folder and run the following commands:
 
+➜  ~/app-code(master) chmod+x pre-commit
 ➜  ~/app-code(master) python gl-runner.py
 
 # Congratulations! All is done now! The script will install the pre-commit framework and all necessary dependencies
@@ -58,6 +59,10 @@ repos:
 
 ```
 ---
+### The short demo is here:
+[![asciicast](https://asciinema.org/a/596014.svg)](https://asciinema.org/a/596014)
+---
+
 > For a more detailed understanding, you can familiarize yourself with the following resources:<br>
 > - [gitleaks intro](https://github.com/gitleaks/gitleaks/tree/master) <br>
 > - [pre-commit framework intro](https://pre-commit.com/#intro)
