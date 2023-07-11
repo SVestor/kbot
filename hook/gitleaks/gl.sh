@@ -17,6 +17,9 @@ setup_verify_os() {
         Linux)
             OS=linux
             ;;
+        Windows)
+            OS=windows
+            ;;    
         *)
             fatal "Unsupported operating system ${OS}"
     esac
@@ -27,7 +30,7 @@ setup_verify_arch() {
         ARCH=$(uname -m)
     fi
     case ${ARCH} in
-        arm|armv6l|armv7l)
+        arm|armv8l)
             ARCH=arm
             ;;
         arm64)
@@ -39,6 +42,12 @@ setup_verify_arch() {
         x86_64)
             ARCH=x64
             ;;
+        armv6l)
+            ARCH=armv6
+            ;;
+        armv7l)
+            ARCH=armv7
+            ;;        
         *)
             fatal "Unsupported architecture ${ARCH}"
     esac
@@ -50,7 +59,7 @@ download_binary() {
     TMP_DIR="$(mktemp -d -t tmp-install.XXXXXXXXXX)"
     cd "${TMP_DIR}"
     
-    BIN_URL="https://api.github.com/repos/zricethezav/gitleaks/releases/latest"
+    BIN_URL="https://api.github.com/repos/${GITHUB_REPO}/releases/latest"
     
     curl -LO "$(curl -Ls ${BIN_URL} | grep 'browser_download_url' | cut -d '"' -f 4 | grep "${OS}_${ARCH}.tar.gz$")"
     
