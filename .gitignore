@@ -1,3 +1,4 @@
 #Untracked files and folders
 
 .github/workflows/cicd-ghcr.yml
+hook/pre-web-hooks/pre-commit

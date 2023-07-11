@@ -10,11 +10,14 @@ def check_package_installed(package_name):
         result = subprocess.run(['pip', 'show', package_name], capture_output=True, text=True)
         if result.returncode == 0:
             print(f"Package '{package_name}' is already installed.")
+            os.system('pre-commit autoupdate')
         else:
             raise ModuleNotFoundError
     except ModuleNotFoundError:
         subprocess.check_call(['pip', 'install', package_name])
         print(f"Package '{package_name}' has been installed.")
+        os.system('pre-commit autoupdate')
+        
 
 # Package need to be installed
 package_name = 'pre-commit'
@@ -34,7 +37,7 @@ file = './pre-commit'
 if gitleaksEnabled():
     
     if os.path.isfile(file): 
-
+  
        src = f'./{file}'
        dst = '../../.git/hooks/'
        shutil.move(src, dst)
@@ -53,7 +56,7 @@ if gitleaksEnabled():
        print('''         
      gitleaks pre-commit disabled
              
-     To disable go to 'hook/pre-web-hooks/' and run the following command:
+     To enable go to 'hook/pre-web-hooks/' and run the following command:
              
      python gl-runner.py            
 ''')
