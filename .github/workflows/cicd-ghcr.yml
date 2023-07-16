@@ -2,7 +2,7 @@ name: KBOT-CICD-DEV
 
 on: 
   push:
-    branches: [ "develop" ]
+    branches: [ "dev" ]
 
 env:
   CHREG: "ghcr.io"
