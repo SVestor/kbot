@@ -24,7 +24,7 @@ jobs:
             git diff --name-only ${{ github.event.before }} ${{ github.event.after }} 
 
             if ! git diff --name-status ${{ github.event.before }} ${{ github.event.after }} ; then
-               echo "No files created."
+               echo "No files were modified"
             else
-               git diff --name-status ${{ github.event.before }} ${{ github.event.after}} | grep '^A'
+               git diff --name-status ${{ github.event.before }} ${{ github.event.after}} | grep '^M'
             fi
