@@ -24,10 +24,10 @@ jobs:
             git diff --name-only ${{ github.event.before }} ${{ github.event.after }} 
 
             echo "all created:"
-            git diff --name-status ${{ github.event.before }} ${{ github.event.after }} | grep '^A'
+            git diff --name-status ${{ github.event.before }} ${{ github.event.after }} --exit-code 0 | grep '^A'
             
             echo "all removed:"
-            git diff --name-status ${{ github.event.before }} ${{ github.event.after }} | grep '^D'
+            git diff --name-status ${{ github.event.before }} ${{ github.event.after }} --exit-code 0 | grep '^D'
             
             echo "all updated:"
-            git diff --name-status ${{ github.event.before }} ${{ github.event.after }} | grep '^M'   
+            git diff --name-status ${{ github.event.before }} ${{ github.event.after }} --exit-code 0 | grep '^M'   
