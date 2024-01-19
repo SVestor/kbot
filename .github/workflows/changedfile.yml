@@ -20,7 +20,7 @@ jobs:
         run: | 
             echo "modified sha is: " ${{ github.event.before }}
             
-            echo "all modified files: "
+            echo "all modified files:"
             git diff --name-only ${{ github.event.before }} ${{ github.event.after }} 
 
             echo "all created:"
