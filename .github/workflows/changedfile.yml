@@ -23,7 +23,7 @@ jobs:
             echo "all modified files:"
             git diff --name-only ${{ github.event.before }} ${{ github.event.after }} 
 
-            if ! $(git diff --name-status ${{ github.event.before }} ${{ github.event.after }}); then
+            if ! git diff --name-status ${{ github.event.before }} ${{ github.event.after }} ; then
                echo "No files created."
             else
                git diff --name-status ${{ github.event.before }} ${{ github.event.after}} | grep '^A'
