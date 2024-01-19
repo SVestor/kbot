@@ -26,6 +26,6 @@ jobs:
             if ! git diff --name-status ${{ github.event.before }} ${{ github.event.after }} ; then
                echo "No files were modified"
             else
-               echo: "updated files:"
+               echo "updated files:"
                git diff --name-status ${{ github.event.before }} ${{ github.event.after}} | grep '^M'
             fi
