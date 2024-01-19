@@ -18,5 +18,6 @@ jobs:
       
       - name: Get changes
         run: | 
-            echo ${{ github.event.before }}
+            echo "modified sha is: " ${{ github.event.before }}
+            echo "all modified files: "
             git diff --name-only ${{ github.event.before }} ${{ github.event.after }}    
