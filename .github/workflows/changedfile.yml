@@ -17,4 +17,6 @@ jobs:
           fetch-depth: 0
       
       - name: Get changes
-        run: git diff --name-only ${{ github.event.before }} ${{ github.event.after }}    
+        run: | 
+            echo ${{ github.event.before }}
+            git diff --name-only ${{ github.event.before }} ${{ github.event.after }}    
