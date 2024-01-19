@@ -37,9 +37,18 @@ jobs:
                git diff --name-status ${{ github.event.before }} ${{ github.event.after}} | grep '^M'
             fi
 
+             if [[ ! $( git diff --name-status ${{ github.event.before }} ${{ github.event.after }} | grep '^R100' ) ]]; then
+               echo "No files were moved/renamed"
+            else
+               echo "moved/renamed files:"
+               git diff --name-status ${{ github.event.before }} ${{ github.event.after}} | grep '^R100'
+            fi
+
             if [[ ! $( git diff --name-status ${{ github.event.before }} ${{ github.event.after }} | grep '^D' ) ]]; then
                echo "No files were removed"
             else
                echo "removed files:"
                git diff --name-status ${{ github.event.before }} ${{ github.event.after}} | grep '^D'
             fi
+
+           
