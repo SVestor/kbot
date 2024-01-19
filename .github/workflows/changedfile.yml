@@ -23,11 +23,8 @@ jobs:
             echo "all modified files:"
             git diff --name-only ${{ github.event.before }} ${{ github.event.after }} 
 
-            echo "all created:"
-            git diff --name-status ${{ github.event.before }} ${{ github.event.after }} --exit-code 0 | grep '^A'
-            
-            echo "all removed:"
-            git diff --name-status ${{ github.event.before }} ${{ github.event.after }} --exit-code 0 | grep '^D'
-            
-            echo "all updated:"
-            git diff --name-status ${{ github.event.before }} ${{ github.event.after }} --exit-code 0 | grep '^M'   
+            if $(git diff --name-status ${{ github.event.before }} ${{ github.event.after }} --exit-code 0) -eq 0; then
+               echo "No files created."
+            else
+               git diff --name-status ${{ github.event.before }} ${{ github.event.after}} | grep '^A'
+            fi
